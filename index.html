@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculador 2025</title>
+
+
+<head>
+    <style>
+        body {
+            background-color: beige;
+            text-align: center;
+        }
+        #calc_body {
+            background-color: rgb(81, 39, 120);
+            height: 500px;
+            width: 300px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            text-align: center;
+            flex-wrap: wrap;
+            padding-left: 15px;
+            margin: 0 auto;
+        }
+        #numeros button {
+            border-radius: 15%;
+            justify-content: center;
+            background-color: rgb(54, 98, 155);
+            height: 60px; 
+            width: 90px;
+            border: 1px solid black;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            float: left;
+            margin: auto;
+        }
+        .operadores button{
+            border-radius: 15%;
+            justify-content: center;
+            background-color: rgb(41, 111, 41);
+            height: 60px; 
+            width: 68px;
+            border: 1px solid black;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            float: left;
+            margin: auto;
+        }
+        .numeros button:hover {
+            background-color: darkgray;
+        }
+        #input_display {
+            background-color: #7c9885;
+            height: 60px; 
+            width: 268px;
+            border: 1px solid black;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin: auto;
+            border-radius: 15%;
+            justify-content: center;
+            float: left;
+        }
+        button.clear {
+            background-color: #7c9885;
+            height: 60px; 
+            width: 268px;
+            border: 1px solid black;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin: auto;
+            border-radius: 15%;
+            justify-content: center;
+            float: left;
+        }
+        #wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px; /* space between calculator and history */
+            margin-top: 50px;
+        }
+        #histContainer {
+            overflow-y: auto;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+    <div id="wrapper">
+        <div id = "calc_body">
+            <div class ="display">
+                    <div id="input_display">
+            </div>
+
+            <div class="operadores">
+                <button class="button operador" onclick="ingresarOperador('/')"> / </button>
+                <button class="button operador" onclick="ingresarOperador('*')"> * </button>
+                <button class="button operador" onclick="ingresarOperador('-')"> - </button>
+                <button class="button operador" onclick="ingresarOperador('+')"> + </button>
+            </div>
+
+            <div id = "numeros">
+                        <div>
+                            <button class="button" onclick="ingresarNumero('0')"> 0 </button> 
+                            <button class="button" onclick="ingresarNumero('1')"> 1 </button>
+                            <button class="button" onclick="ingresarNumero('2')"> 2 </button>
+                            <button class="button" onclick="ingresarNumero('3')"> 3 </button>
+                            <button class="button" onclick="ingresarNumero('4')"> 4 </button>
+                            <button class="button" onclick="ingresarNumero('5')"> 5 </button>
+                            <button class="button" onclick="ingresarNumero('6')"> 6 </button>
+                            <button class="button" onclick="ingresarNumero('7')"> 7 </button>
+                            <button class="button" onclick="ingresarNumero('8')"> 8 </button>
+                            <button class="button" onclick="ingresarNumero('9')"> 9 </button>
+                            <button class="button" onclick="ingresarNumero('.')"> . </button>
+                            <button id="button_equal" > = </button>
+                        </div>      
+            </div>
+            
+            <div class="cls">
+                    <button class="clear" onclick="clearInput()"> Clear </button>
+
+            </div>  
+
+        </div>
+        </div>
+
+        <div id="histContainer" style="border-style: solid; height: 100px; width: 400px; margin-right: 360px; text-align: left;">
+                <p id="demo" ></p>
+        </div>
+    </div>
+
+
+    <script>
+    let entradaActual = '';
+    let operadorActual = '';
+    let entradaExistente = '';
+    let allTogether = '';
+    let resultado = '';
+    
+    function ingresarNumero(Number) {
+        entradaActual += Number;
+        document.getElementById("input_display").innerHTML = `${entradaExistente} ${operadorActual} ${entradaActual}`;
+    }
+
+    function ingresarOperador(operador) {
+        if (entradaActual === "") return;
+        
+        operadorActual = operador;
+        entradaExistente = entradaActual
+        entradaActual = "";
+        
+        document.getElementById("input_display").innerHTML = `${entradaExistente} ${operadorActual}`;
+    }
+
+    function calcular() {
+        if (entradaExistente === "" || entradaActual === "") return;
+        let valorPrev = parseFloat(entradaExistente);
+        let valorActual = parseFloat(entradaActual);
+
+        switch (operadorActual) {
+            case "+":
+                resultado = valorPrev + valorActual;
+                break;
+            case "-":
+                resultado = valorPrev - valorActual;
+                break;
+            case "*": 
+                resultado = valorPrev * valorActual;
+                break;
+            case "/":
+                if (valorActual === 0) {
+                    alert("NULL");
+                    return;
+                }
+                else 
+                resultado = valorPrev / valorActual;
+                break;
+            default:
+                return;
+        }
+        entradaActual = resultado.toString();
+        operadorActual = "";
+        entradaExistente = "";
+        document.getElementById("input_display").innerHTML = entradaActual
+    }
+    function clearInput() {
+        entradaActual = "";
+        entradaExistente = "";
+        operadorActual = "";
+        document.getElementById("input_display").innerHTML = "";
+    }
+    
+
+    document.getElementById("button_equal").addEventListener("click", displayEquation);
+    function displayEquation() {
+        const prev = entradaExistente;
+        const ope = operadorActual;
+        const curr = entradaActual;
+        
+        calcular();
+
+        const newLine = prev+ ope + curr + "=" + resultado ;
+        const historyBox = document.getElementById("demo");
+
+        historyBox.innerHTML += newLine + "<br>";
+    }
+    
+    
+
+    </script>
+
+</body>
+
+</html>
